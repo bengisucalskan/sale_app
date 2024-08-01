@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sale_app/cart_view.dart';
-import 'package:sale_app/home_view.dart';
-import 'package:sale_app/profile_view.dart';
+import 'package:sale_app/modules/home/home_view.dart';
+import 'package:sale_app/modules/profile/profile_view.dart';
 
 class SaleApp extends StatefulWidget {
   const SaleApp({super.key});
@@ -38,7 +37,7 @@ class _SaleAppState extends State<SaleApp> {
               currentIndex = index;
             });
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.emoji_flags_outlined),
               label: '',
