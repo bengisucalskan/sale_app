@@ -25,7 +25,6 @@ class HomeViewModel extends ChangeNotifier {
     print(' func started');
     final response = await dio.get('${base_url}products/categories');
     if (response.statusCode == 200) {
-      print('response data = ${response.data}');
       categories = response.data;
     }
     changeLoading();
@@ -35,12 +34,21 @@ class HomeViewModel extends ChangeNotifier {
   List<Product> products = List.empty(growable: true);
 
   void getProducts() async {
+    final List<String?> productCategories = List.empty(growable: true);
+    String category = "";
     print('product func started');
     changeLoading();
     final response = await dio.get('${base_url}products');
     if (response.statusCode == 200) {
       List<dynamic> productData = response.data;
       products = productData.map((e) => Product.fromJson(e)).toList();
+      for (var e in products) {
+        if (e.category != category) {
+          productCategories.add(e.category);
+          category = e.category ?? "";
+        }
+      }
+      print(productCategories);
     }
     changeLoading();
     notifyListeners();

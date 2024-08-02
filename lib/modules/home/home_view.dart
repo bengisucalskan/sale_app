@@ -14,12 +14,10 @@ class HomeView extends StatelessWidget {
           decoration: InputDecoration(
             filled: true, // kenar ekliyo
             fillColor: const Color.fromARGB(255, 234, 233, 241),
-            prefixIcon: const Icon(Icons.search,
-                color: Color.fromARGB(255, 80, 76, 76)),
+            prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 80, 76, 76)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide:
-                  BorderSide.none, // kenar çizgisinin belirginliğini azaltıyor
+              borderSide: BorderSide.none, // kenar çizgisinin belirginliğini azaltıyor
             ),
           ),
         ),
@@ -58,8 +56,7 @@ class HomeView extends StatelessWidget {
                             children: <Widget>[
                               const CircleAvatar(
                                 radius: 33,
-                                backgroundColor:
-                                    Color.fromARGB(255, 218, 207, 207),
+                                backgroundColor: Color.fromARGB(255, 218, 207, 207),
                               ),
                               Text(value.categories[index] ?? "")
                             ],
@@ -69,8 +66,7 @@ class HomeView extends StatelessWidget {
                     ),
                   )
                 : const CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: CircularProgressIndicator()),
+                    backgroundColor: Colors.transparent, child: CircularProgressIndicator()),
           ),
           Padding(
             padding: const EdgeInsets.all(20),
@@ -78,53 +74,79 @@ class HomeView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(vm.bestSelling,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
-                const Text('Sell all',
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text('See all', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
           Consumer<HomeViewModel>(
             builder: (context, value, child) => value.loading
-                ? GridView.builder(
+                ? GridView.extent(
+                    childAspectRatio: 0.6,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 30,
-                      mainAxisExtent: 130,
-                    ),
-                    itemCount: value.products.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        color: Colors.red,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        value.products[index].image.toString()),
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
-                            //const SizedBox(height: 5),
-                            //const Text('aa'),
-                          ],
-                        ),
-                      );
-                    })
+                    maxCrossAxisExtent: MediaQuery.of(context).size.width / 1.1,
+                    children: value.products
+                        .map((e) => Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.all(10),
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(30),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Image.network(
+                                      // CachedNetworkImage
+                                      "${e.image}",
+                                      errorBuilder: (context, error, stackTrace) =>
+                                          const Icon(Icons.image),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    e.title ?? "",
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    e.category ?? "",
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey,
+                                        fontSize: 13),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    '£${e.price}',
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.green,
+                                        fontSize: 19),
+                                  ),
+                                ),
+                              ],
+                            ))
+                        .toList())
                 : const CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: CircularProgressIndicator()),
+                    backgroundColor: Colors.transparent, child: CircularProgressIndicator()),
           )
         ],
       ),
