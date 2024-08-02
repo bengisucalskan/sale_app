@@ -14,10 +14,12 @@ class HomeView extends StatelessWidget {
           decoration: InputDecoration(
             filled: true, // kenar ekliyo
             fillColor: const Color.fromARGB(255, 234, 233, 241),
-            prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 80, 76, 76)),
+            prefixIcon: const Icon(Icons.search,
+                color: Color.fromARGB(255, 80, 76, 76)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none, // kenar çizgisinin belirginliğini azaltıyor
+              borderSide:
+                  BorderSide.none, // kenar çizgisinin belirginliğini azaltıyor
             ),
           ),
         ),
@@ -56,7 +58,8 @@ class HomeView extends StatelessWidget {
                             children: <Widget>[
                               const CircleAvatar(
                                 radius: 33,
-                                backgroundColor: Color.fromARGB(255, 218, 207, 207),
+                                backgroundColor:
+                                    Color.fromARGB(255, 218, 207, 207),
                               ),
                               Text(value.categories[index] ?? "")
                             ],
@@ -66,7 +69,8 @@ class HomeView extends StatelessWidget {
                     ),
                   )
                 : const CircleAvatar(
-                    backgroundColor: Colors.transparent, child: CircularProgressIndicator()),
+                    backgroundColor: Colors.transparent,
+                    child: CircularProgressIndicator()),
           ),
           Padding(
             padding: const EdgeInsets.all(20),
@@ -74,38 +78,54 @@ class HomeView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(vm.bestSelling,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const Text('Sell all', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text('Sell all',
+                    style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
-          GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 30,
-                mainAxisExtent: 130,
-              ),
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return Container(
-                  color: Colors.red,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        color: const Color.fromARGB(255, 50, 51, 51),
-                      ),
-                      const SizedBox(height: 5),
-                      const Text('aa'),
-                    ],
-                  ),
-                );
-              })
+          Consumer<HomeViewModel>(
+            builder: (context, value, child) => value.loading
+                ? GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 30,
+                      mainAxisExtent: 130,
+                    ),
+                    itemCount: value.products.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        color: Colors.red,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        value.products[index].image.toString()),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                            //const SizedBox(height: 5),
+                            //const Text('aa'),
+                          ],
+                        ),
+                      );
+                    })
+                : const CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: CircularProgressIndicator()),
+          )
         ],
       ),
     );
