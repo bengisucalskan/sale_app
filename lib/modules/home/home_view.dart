@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sale_app/modules/home/home_view_model.dart';
 
@@ -8,16 +9,19 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.read<HomeViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           decoration: InputDecoration(
             filled: true, // kenar ekliyo
             fillColor: const Color.fromARGB(255, 234, 233, 241),
-            prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 80, 76, 76)),
+            prefixIcon: const Icon(Icons.search,
+                color: Color.fromARGB(255, 80, 76, 76)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none, // kenar çizgisinin belirginliğini azaltıyor
+              borderSide:
+                  BorderSide.none, // kenar çizgisinin belirginliğini azaltıyor
             ),
           ),
         ),
@@ -54,9 +58,20 @@ class HomeView extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             children: <Widget>[
-                              const CircleAvatar(
-                                radius: 33,
-                                backgroundColor: Color.fromARGB(255, 218, 207, 207),
+                              InkWell(
+                                onTap: () {
+                                  context.go(
+                                    "/modules/home/details",
+                                    extra: value.categories[index],
+                                  );
+                                  print(
+                                      "home_view------------------${value.categories[index]}");
+                                },
+                                child: const CircleAvatar(
+                                  radius: 33,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 218, 207, 207),
+                                ),
                               ),
                               Text(value.categories[index] ?? "")
                             ],
@@ -66,7 +81,8 @@ class HomeView extends StatelessWidget {
                     ),
                   )
                 : const CircleAvatar(
-                    backgroundColor: Colors.transparent, child: CircularProgressIndicator()),
+                    backgroundColor: Colors.transparent,
+                    child: CircularProgressIndicator()),
           ),
           Padding(
             padding: const EdgeInsets.all(20),
@@ -74,8 +90,11 @@ class HomeView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(vm.bestSelling,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const Text('See all', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text('See all',
+                    style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -100,24 +119,28 @@ class HomeView extends StatelessWidget {
                                     child: Image.network(
                                       // CachedNetworkImage
                                       "${e.image}",
-                                      errorBuilder: (context, error, stackTrace) =>
-                                          const Icon(Icons.image),
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.image),
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: Text(
                                     e.title ?? "",
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style:
-                                        const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 17),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: Text(
                                     e.category ?? "",
                                     textAlign: TextAlign.center,
@@ -130,7 +153,8 @@ class HomeView extends StatelessWidget {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: Text(
                                     '£${e.price}',
                                     textAlign: TextAlign.center,
@@ -146,7 +170,8 @@ class HomeView extends StatelessWidget {
                             ))
                         .toList())
                 : const CircleAvatar(
-                    backgroundColor: Colors.transparent, child: CircularProgressIndicator()),
+                    backgroundColor: Colors.transparent,
+                    child: CircularProgressIndicator()),
           )
         ],
       ),

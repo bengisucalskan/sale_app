@@ -48,7 +48,7 @@ class HomeViewModel extends ChangeNotifier {
           category = e.category ?? "";
         }
       }
-      print(productCategories);
+      print(" home_view_model ${productCategories}");
     }
     changeLoading();
     notifyListeners();
@@ -58,4 +58,9 @@ class HomeViewModel extends ChangeNotifier {
     _loading = !_loading;
     notifyListeners();
   }
+
+/*   List<Product> getProductsByCategory(String category) {
+    // Verilen kategori adına göre ürünleri filtreliyomuş
+    return products.where((product) => product.category == category).toList();
+  } */
 }

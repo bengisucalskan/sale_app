@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sale_app/base_page.dart';
+import 'package:sale_app/base/init/router.dart';
+import 'package:sale_app/modules/home/details/home_detail_view_model.dart';
 import 'package:sale_app/modules/home/home_view_model.dart';
 
 void main() {
@@ -16,7 +17,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
       ],
-      child: const MaterialApp(home: SaleApp()),
+      child: MaterialApp.router(
+        routerConfig: Routes.router,
+      ),
     );
   }
 }
