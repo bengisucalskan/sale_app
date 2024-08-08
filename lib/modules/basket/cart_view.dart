@@ -46,20 +46,18 @@ class _CartViewState extends State<CartView> {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.remove),
-                    onPressed: () => setState(() {
-                      if (vm.items[index].quantities > 1) {
-                        vm.items[index].quantities--;
-                      }
-                    }),
-                  ),
+                      icon: const Icon(Icons.remove),
+                      onPressed: () {
+                        Provider.of<CartViewModel>(context, listen: false)
+                            .decrementQuantity(index);
+                      }),
                   Text('${vm.items[index].quantities}'),
                   IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () => setState(() {
-                      vm.items[index].quantities++;
-                    }),
-                  ),
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        Provider.of<CartViewModel>(context, listen: false)
+                            .incrementQuantity(index);
+                      }),
                   Column(
                     children: [
                       Padding(
@@ -75,7 +73,8 @@ class _CartViewState extends State<CartView> {
                       ),
                       IconButton(
                           onPressed: () {
-                            // ürünü ful kaldırarcak yapı
+                            Provider.of<CartViewModel>(context, listen: false)
+                                .removeItem(index);
                           },
                           icon: const Icon(Icons.delete))
                     ],
@@ -102,7 +101,7 @@ class _CartViewState extends State<CartView> {
                 ),
                 Consumer<CartViewModel>(builder: (context, vm, child) {
                   return Text(
-                    '\£${vm.getTotalPrice().toStringAsFixed(2)}', // 2 basamakla beraber metinsel formata çeviriyomuş
+                    '£${vm.totalPrice.toStringAsFixed(2)}', // 2 basamakla beraber metinsel formata çeviriyomuş
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

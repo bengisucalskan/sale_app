@@ -15,7 +15,8 @@ class HomeViewModel extends ChangeNotifier {
 
   final dio = Dio(); // base dio'ya çeviricez
 
-  static const base_url = 'https://fakestoreapi.com/'; // env dosyasına çıkartıcaz
+  static const base_url =
+      'https://fakestoreapi.com/'; // env dosyasına çıkartıcaz
 
   //List<Categories> categories = List.empty(growable: true);
 
@@ -60,9 +61,4 @@ class HomeViewModel extends ChangeNotifier {
     _loading = !_loading;
     notifyListeners();
   }
-
-/*   List<Product> getProductsByCategory(String category) {
-    // Verilen kategori adına göre ürünleri filtreliyomuş
-    return products.where((product) => product.category == category).toList();
-  } */
 }
