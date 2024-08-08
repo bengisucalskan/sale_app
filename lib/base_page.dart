@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sale_app/modules/basket/cart_view.dart';
 import 'package:sale_app/modules/home/home_view.dart';
-import 'package:sale_app/modules/profile/profile_view.dart';
+import 'package:sale_app/modules/profile/favorites_view.dart';
 
 class SaleApp extends StatefulWidget {
   const SaleApp({super.key});
@@ -18,7 +18,7 @@ class _SaleAppState extends State<SaleApp> {
       case 1:
         return const CartView();
       case 2:
-        return const ProfileView();
+        return const FavoritesView();
     }
     return const HomeView();
   }
