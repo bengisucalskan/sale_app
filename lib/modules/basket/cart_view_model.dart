@@ -50,6 +50,7 @@ class CartViewModel extends ChangeNotifier {
   }
 
   double getTotalPrice() {
+    //voide çevir
     double total = 0;
     for (var item in _items) {
       total += item.quantities * (item.product.price ?? 0.0);

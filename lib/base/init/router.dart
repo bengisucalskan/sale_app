@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sale_app/base_page.dart';
-import 'package:sale_app/modules/basket/cart_view.dart';
-import 'package:sale_app/modules/basket/cart_view_model.dart';
 import 'package:sale_app/modules/home/details/category_detail_view.dart';
 import 'package:sale_app/modules/home/details/category_detail_view_model.dart';
 import 'package:sale_app/modules/home/details/home_detail_view.dart';

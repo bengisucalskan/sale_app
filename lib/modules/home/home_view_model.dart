@@ -13,13 +13,15 @@ class HomeViewModel extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
 
-  final dio = Dio();
+  final dio = Dio(); // base dio'ya çeviricez
 
-  static const base_url = 'https://fakestoreapi.com/';
+  static const base_url = 'https://fakestoreapi.com/'; // env dosyasına çıkartıcaz
 
   //List<Categories> categories = List.empty(growable: true);
 
-  List<dynamic> categories = List.empty(growable: true);
+  List<dynamic> categories = List.empty(
+      growable:
+          true); // modelleri basemodel yapabiliriz, jsonserial, jsonannotion, equatable ile modelleri daha performanslı hale getirebiliriz.
 
   void getCategories() async {
     print(' func started');
