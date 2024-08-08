@@ -54,21 +54,13 @@ class CategoryDetailView extends StatelessWidget {
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text('£${vm.productCategories[index].price}',
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.green,
-                                      fontSize: 19,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.shopping_cart_outlined))
-                              ],
-                            ),
+                            Text('£${vm.productCategories[index].price}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.green,
+                                  fontSize: 19,
+                                )),
                           ],
                         ),
                       ),
