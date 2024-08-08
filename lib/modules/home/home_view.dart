@@ -106,68 +106,91 @@ class HomeView extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     maxCrossAxisExtent: MediaQuery.of(context).size.width / 1.1,
                     children: value.products
-                        .map((e) => Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    margin: const EdgeInsets.all(10),
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.all(30),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade300,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Image.network(
-                                      // CachedNetworkImage
-                                      "${e.image}",
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              const Icon(Icons.image),
+                        .map(
+                          (e) => InkWell(
+                              onTap: () {
+                                context.go(
+                                  "/modules/home/details1",
+                                  extra: e.id.toString(),
+                                );
+                                print("home_view------------------${e.id}");
+                              },
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      margin: const EdgeInsets.all(10),
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(30),
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Image.network(
+                                        // CachedNetworkImage
+                                        "${e.image}",
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const Icon(Icons.image),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    e.title ?? "",
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 17),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Text(
+                                      e.title ?? "",
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 17),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    e.category ?? "",
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey,
-                                        fontSize: 13),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Text(
+                                      e.category ?? "",
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey,
+                                          fontSize: 13),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    '£${e.price}',
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.green,
-                                        fontSize: 19),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          '£${e.price}',
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              color: Colors.green,
+                                              fontSize: 19),
+                                        ),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            // sepete ürün ekleyecek basınca
+                                          },
+                                          icon: Icon(
+                                              Icons.shopping_cart_outlined))
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ))
+                                ],
+                              )),
+                        )
                         .toList())
                 : const CircleAvatar(
                     backgroundColor: Colors.transparent,
