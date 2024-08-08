@@ -37,6 +37,7 @@ class CartViewModel extends ChangeNotifier {
         //  olabilir mi??
         element.quantities += quantity;
         itemExists = true;
+        notifyListeners();
         break;
       }
     }

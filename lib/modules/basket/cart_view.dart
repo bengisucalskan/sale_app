@@ -10,9 +10,6 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  List<int> quantities =
-      List<int>.generate(10, (index) => 1); // şindilik hepsine 1 ver
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,16 +48,16 @@ class _CartViewState extends State<CartView> {
                   IconButton(
                     icon: const Icon(Icons.remove),
                     onPressed: () => setState(() {
-                      if (quantities[index] > 1) {
-                        quantities[index]--;
+                      if (vm.items[index].quantities > 1) {
+                        vm.items[index].quantities--;
                       }
                     }),
                   ),
-                  Text('${quantities[index]}'),
+                  Text('${vm.items[index].quantities}'),
                   IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () => setState(() {
-                      quantities[index]++;
+                      vm.items[index].quantities++;
                     }),
                   ),
                   Column(
@@ -68,7 +65,7 @@ class _CartViewState extends State<CartView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          '\£${(quantities[index].toDouble() * (vm.items[index].product.price ?? 0.0)).toStringAsFixed(2)}', // miktar artışına göre değişiy
+                          '\£${(vm.items[index].quantities.toDouble() * (vm.items[index].product.price ?? 0.0)).toStringAsFixed(2)}', // miktar artışına göre değişiy
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
