@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sale_app/modules/basket/cart_view.dart';
 import 'package:sale_app/modules/basket/cart_view_model.dart';
 import 'package:sale_app/modules/home/details/home_detail_view_model.dart';
+import 'package:sale_app/modules/profile/favorites_view_model.dart';
 
 class HomeDetailView extends StatefulWidget {
   const HomeDetailView({super.key});
@@ -53,7 +54,11 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                                   fontSize: 23,
                                 )),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context
+                                      .read<FavoritesViewModel>()
+                                      .addItemFavorites(vm.productId);
+                                },
                                 icon:
                                     const Icon(Icons.favorite_outline_rounded))
                           ],
