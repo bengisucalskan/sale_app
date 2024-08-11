@@ -59,7 +59,7 @@ class CartViewModel extends ChangeNotifier {
   }
 
   void _getTotalPrice() {
-    //voide çevir+  , counter detay sayfasında da artsın!!, silme tuşunu yap, favoriler sayfasını yap!!!,git branch öğren
+    //voide çevir+  , silme tuşunu yap+,  counter detay sayfasında da artsın!!, favoriler sayfasını yap!!!
     _totalPrice = 0;
     for (var item in _items) {
       _totalPrice += item.quantities * (item.product.price ?? 0.0);
