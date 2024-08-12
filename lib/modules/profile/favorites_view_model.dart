@@ -15,21 +15,12 @@ class FavoritesViewModel extends ChangeNotifier {
   }
 
   void removeItemFromFavorites(int productId) {
-    print("Products in favorites before removal:");
-    for (var item in favoriteItem) {
-      print("Product ID: ${item.id}");
-    }
-
-    int initialCount = favoriteItem.length;
     favoriteItem.removeWhere((item) {
-      bool shouldRemove = item.id == productId;
-      print(
-          "Checking product with ID ${item.id} against $productId: $shouldRemove");
-      return shouldRemove;
+      bool remove = item.id == productId;
+      print("Checking product  ID ${item.id} against $productId: $remove");
+      return remove;
     });
-    int finalCount = favoriteItem.length;
 
-    print("Products removed: ${initialCount - finalCount}");
     notifyListeners();
   }
 
