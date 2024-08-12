@@ -150,9 +150,19 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                 fixedSize: Size(180, 34),
               ),
               onPressed: () {
-                context
-                    .read<CartViewModel>()
-                    .addItem(vm.productId, vm.quantity);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Products added to Cart'),
+                    action: SnackBarAction(
+                      label: 'go to basket',
+                      onPressed: () {
+                        context
+                            .read<CartViewModel>()
+                            .addItem(vm.productId, vm.quantity);
+                      },
+                    ),
+                  ),
+                );
               },
               child: const Icon(Icons.shopping_cart_outlined),
             ),
