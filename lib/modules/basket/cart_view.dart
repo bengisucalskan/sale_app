@@ -17,73 +17,77 @@ class _CartViewState extends State<CartView> {
         title: const Text('SEPET'),
       ),
       body: Consumer<CartViewModel>(builder: (context, vm, child) {
-        return ListView.builder(
-          itemCount: vm.items.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(
-                      vm.items[index].product.image ?? "",
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        return vm.loading
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: vm.items.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Row(
                       children: <Widget>[
-                        Text(
-                          vm.items[index].product.title ?? "",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.network(
+                            vm.items[index].product.image ?? "",
+                            width: 100,
+                            height: 100,
                           ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                vm.items[index].product.title ?? "",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () {
+                              Provider.of<CartViewModel>(context, listen: false)
+                                  .decrementQuantity(index);
+                            }),
+                        Text('${vm.items[index].quantities}'),
+                        IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              Provider.of<CartViewModel>(context, listen: false)
+                                  .incrementQuantity(index);
+                            }),
+                        Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                '\£${(vm.items[index].quantities.toDouble() * (vm.items[index].product.price ?? 0.0)).toStringAsFixed(2)}', // miktar artışına göre değişiy
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  Provider.of<CartViewModel>(context,
+                                          listen: false)
+                                      .removeItem(index);
+                                },
+                                icon: const Icon(Icons.delete))
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: () {
-                        Provider.of<CartViewModel>(context, listen: false)
-                            .decrementQuantity(index);
-                      }),
-                  Text('${vm.items[index].quantities}'),
-                  IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Provider.of<CartViewModel>(context, listen: false)
-                            .incrementQuantity(index);
-                      }),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          '\£${(vm.items[index].quantities.toDouble() * (vm.items[index].product.price ?? 0.0)).toStringAsFixed(2)}', // miktar artışına göre değişiy
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            Provider.of<CartViewModel>(context, listen: false)
-                                .removeItem(index);
-                          },
-                          icon: const Icon(Icons.delete))
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+                  );
+                },
+              );
       }),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(20),
