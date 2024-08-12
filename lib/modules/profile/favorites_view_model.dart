@@ -3,29 +3,32 @@ import 'package:sale_app/modules/home/product_model.dart';
 
 class FavoritesViewModel extends ChangeNotifier {
   bool _loading = false;
+  List<Product> favoriteItems = [];
+
   bool get loading => _loading;
 
-  List<Product> favoriteItem = [];
+  List<Product> get favoriteItem => favoriteItems;
 
-  void addItemFavorites(Product product) {
-    if (!favoriteItem.any((item) => item.id == product.id)) {
-      favoriteItem.add(product);
-      notifyListeners();
-    }
+  // Ürünü kontrol et favorimi diye . Butona tıklandığında item.id ile produck.id si eşit olan
+  // favoritsItemda herhangi bir item var mı varsa eğer home_detail_view sayfasına
+  // git remove a gel
+  bool isProductFavorite(int productId) {
+    return favoriteItems.any((item) => item.id == productId);
   }
 
-  void removeItemFromFavorites(int productId) {
-    favoriteItem.removeWhere((item) {
-      bool remove = item.id == productId;
-      print("Checking product  ID ${item.id} against $productId: $remove");
-      return remove;
-    });
-
+  void addItemFavorites(Product product) {
+    favoriteItems.add(product);
     notifyListeners();
   }
 
-  void changeLoading() {
-    _loading = !_loading;
+  void removeItemFromFavorites(int productId) {
+    // removeWhere listede bu özelliği sağalyan tüm nesneleri kaldırıyo
+    favoriteItems.removeWhere((item) => item.id == productId);
+    notifyListeners();
+  }
+
+  void changeLoading(bool value) {
+    _loading = value;
     notifyListeners();
   }
 }

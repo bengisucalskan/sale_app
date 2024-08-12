@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sale_app/modules/basket/cart_view.dart';
 import 'package:sale_app/modules/basket/cart_view_model.dart';
 import 'package:sale_app/modules/home/details/home_detail_view_model.dart';
+import 'package:sale_app/modules/home/product_model.dart';
 import 'package:sale_app/modules/profile/favorites_view_model.dart';
 
 class HomeDetailView extends StatefulWidget {
@@ -55,12 +56,30 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  context
+                                  if (context
                                       .read<FavoritesViewModel>()
-                                      .addItemFavorites(vm.productId);
+                                      .isProductFavorite(vm.productId.id!)) {
+                                    print(
+                                        "${vm.productId}------aaaa-------- ${vm.productId.id}");
+                                    context
+                                        .read<FavoritesViewModel>()
+                                        .removeItemFromFavorites(
+                                            vm.productId.id!);
+                                  } else {
+                                    context
+                                        .read<FavoritesViewModel>()
+                                        .addItemFavorites(vm.productId);
+                                  }
                                 },
-                                icon:
-                                    const Icon(Icons.favorite_outline_rounded))
+                                icon: Icon(
+                                  Icons.favorite,
+                                  // context.watch veriyi dinliyo veride değişiklik olursa widget build ediliyo.
+                                  color: context
+                                          .watch<FavoritesViewModel>()
+                                          .isProductFavorite(vm.productId.id!)
+                                      ? Colors.pink
+                                      : Colors.grey,
+                                ))
                           ],
                         ),
                         Padding(
