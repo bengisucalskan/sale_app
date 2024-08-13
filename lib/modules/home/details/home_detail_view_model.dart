@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:sale_app/modules/home/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeDetailViewModel extends ChangeNotifier {
   HomeDetailViewModel({required this.paramId}) {
@@ -17,9 +18,11 @@ class HomeDetailViewModel extends ChangeNotifier {
 
   void getProductsById(String id) async {
     changeLoading();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       var response = await Dio().get("$baseUrl$id");
       productId = Product.fromJson(response.data);
+      _quantity = prefs.getInt(productId.id.toString()) ?? 0;
       print(" productId------------------ ${productId}");
       notifyListeners();
     } catch (e) {
@@ -30,16 +33,20 @@ class HomeDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void increase() {
+  void increase() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     _quantity++;
+    await prefs.setInt(productId.id.toString(), _quantity);
     notifyListeners();
   }
 
-  void decrease() {
+  void decrease() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_quantity > 0) {
       _quantity--;
+      await prefs.setInt(productId.id.toString(), _quantity);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   void changeLoading() {

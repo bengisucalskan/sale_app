@@ -158,7 +158,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                       onPressed: () {
                         context
                             .read<CartViewModel>()
-                            .addItem(vm.productId, vm.quantity);
+                            .addProduct(vm.productId, vm.quantity);
                       },
                     ),
                   ),
