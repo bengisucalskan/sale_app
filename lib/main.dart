@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sale_app/base/init/router.dart';
-import 'package:sale_app/modules/basket/cart_view_model.dart';
-import 'package:sale_app/modules/home/home_view_model.dart';
-import 'package:sale_app/modules/profile/favorites_view_model.dart';
+import 'package:sale_app/core/init/di.dart';
+import 'package:sale_app/core/init/route/router.dart';
+import 'package:sale_app/features/basket/cart_view_model.dart';
+import 'package:sale_app/features/home/vm/home_view_model.dart';
+import 'package:sale_app/features/profile/favorites_view_model.dart';
 
-void main() {
+Future<void> main() async {
+  await Di.init();
   runApp(const MyApp());
 }
 

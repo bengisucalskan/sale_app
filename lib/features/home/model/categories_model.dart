@@ -1,4 +1,6 @@
-final class Categories {
+import 'package:equatable/equatable.dart';
+
+final class Categories extends Equatable {
   int? postId;
   int? id;
   String? name;
@@ -24,4 +26,7 @@ final class Categories {
     data['body'] = body;
     return data;
   }
+
+  @override
+  List<Object?> get props => [postId, id, name, email, body];
 }

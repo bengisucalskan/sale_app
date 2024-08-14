@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sale_app/modules/home/product_model.dart';
+import 'package:sale_app/features/home/model/product_model.dart';
 
 class FavoritesViewModel extends ChangeNotifier {
   bool _loading = false;

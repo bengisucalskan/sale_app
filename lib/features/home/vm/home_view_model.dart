@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:sale_app/modules/home/product_model.dart';
+import 'package:sale_app/core/init/network/base_service.dart';
+import 'package:sale_app/features/home/model/product_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
   HomeViewModel() {
-    print('başlatt');
     getCategories();
     getProducts();
   }
+
+  final _service = BaseService();
 
   String bestSelling = "Best Sellingg";
   bool _loading = false;
   bool get loading => _loading;
 
-  final dio = Dio(); // base dio'ya çeviricez
-
-  static const base_url =
-      'https://fakestoreapi.com/'; // env dosyasına çıkartıcaz
-
-  //List<Categories> categories = List.empty(growable: true);
-
   List<dynamic> categories = List.empty(
       growable:
-          true); // modelleri basemodel yapabiliriz, jsonserial, jsonannotion, equatable ile modelleri daha performanslı hale getirebiliriz.
+          true); //jsonserial, jsonannotion, equatable ile modelleri daha performanslı hale getirebiliriz.
 
   void getCategories() async {
-    print(' func started');
-    final response = await dio.get('${base_url}products/categories');
+    final response = await _service.get('products/categories');
     if (response.statusCode == 200) {
       categories = response.data;
     }
@@ -39,9 +32,8 @@ class HomeViewModel extends ChangeNotifier {
   void getProducts() async {
     final List<String?> productCategories = List.empty(growable: true);
     String category = "";
-    print('product func started');
     changeLoading();
-    final response = await dio.get('${base_url}products');
+    final response = await _service.get('products');
     if (response.statusCode == 200) {
       List<dynamic> productData = response.data;
       products = productData.map((e) => Product.fromJson(e)).toList();
@@ -51,7 +43,6 @@ class HomeViewModel extends ChangeNotifier {
           category = e.category ?? "";
         }
       }
-      print(" home_view_model ${productCategories}");
     }
     changeLoading();
     notifyListeners();

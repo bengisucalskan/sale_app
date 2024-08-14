@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:sale_app/modules/home/product_model.dart';
+import 'package:sale_app/core/init/network/base_service.dart';
+import 'package:sale_app/features/home/model/product_model.dart';
 
 class CategoryDetailViewModel extends ChangeNotifier {
   CategoryDetailViewModel({required this.paramCategory}) {
@@ -8,25 +8,21 @@ class CategoryDetailViewModel extends ChangeNotifier {
   }
   bool _loading = false;
   bool get loading => _loading;
-  static const baseUrl = 'https://fakestoreapi.com/products/category/';
 
   List<Product> productCategories = List.empty(growable: true);
+  final _service = BaseService();
   final String? paramCategory;
 
   void getProductsByCategory(String category) async {
     changeLoading();
     try {
-      var response = await Dio().get("$baseUrl$category");
-      productCategories = (response.data as List)
-          .map((item) => Product.fromJson(item))
-          .toList();
-      print(" productCategories------------------ ${productCategories}");
+      var response = await _service.get('products/category/$category');
+      productCategories = (response.data as List).map((item) => Product.fromJson(item)).toList();
       notifyListeners();
     } catch (e) {
-      print("Error fetching products: $e");
-    } finally {
-      changeLoading();
+      print("Hata");
     }
+    changeLoading();
     notifyListeners();
   }
 
