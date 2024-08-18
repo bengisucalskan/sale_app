@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sale_app/modules/profile/favorites_view_model.dart';
+import 'package:sale_app/features/profile/favorites_view_model.dart';
 
 class FavoritesView extends StatefulWidget {
   const FavoritesView({super.key});
@@ -53,8 +53,7 @@ class _FavoritesViewState extends State<FavoritesView> {
                           onPressed: () {
                             context
                                 .read<FavoritesViewModel>()
-                                .removeItemFromFavorites(
-                                    vm.favoriteItem[index].id!);
+                                .removeItemFromFavorites(vm.favoriteItem[index].id!);
                           },
                           icon: const Icon(Icons.delete),
                         )

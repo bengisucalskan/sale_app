@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sale_app/base_page.dart';
-import 'package:sale_app/modules/home/details/category_detail_view.dart';
-import 'package:sale_app/modules/home/details/category_detail_view_model.dart';
-import 'package:sale_app/modules/home/details/home_detail_view.dart';
-import 'package:sale_app/modules/home/details/home_detail_view_model.dart';
+import 'package:sale_app/features/home/details/category_detail/view/category_detail_view.dart';
+import 'package:sale_app/features/home/details/category_detail/vm/category_detail_view_model.dart';
+import 'package:sale_app/features/home/details/home_detail/view/home_detail_view.dart';
+import 'package:sale_app/features/home/details/home_detail/vm/home_detail_view_model.dart';
 
 class Routes {
   static final GoRouter router = GoRouter(

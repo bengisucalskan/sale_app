@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sale_app/modules/basket/cart_view.dart';
-import 'package:sale_app/modules/basket/cart_view_model.dart';
-import 'package:sale_app/modules/home/details/home_detail_view_model.dart';
-import 'package:sale_app/modules/home/product_model.dart';
-import 'package:sale_app/modules/profile/favorites_view_model.dart';
+import 'package:sale_app/features/basket/cart_view.dart';
+import 'package:sale_app/features/basket/cart_view_model.dart';
+import 'package:sale_app/features/home/details/home_detail/vm/home_detail_view_model.dart';
+import 'package:sale_app/features/home/model/product_model.dart';
+import 'package:sale_app/features/profile/favorites_view_model.dart';
 
 class HomeDetailView extends StatefulWidget {
   const HomeDetailView({super.key});
@@ -40,7 +40,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                     child: Column(
                       children: [
                         Image.network(
-                          vm.productId.image ?? '',
+                          vm.productId.image.toString(),
                           fit: BoxFit.cover,
                           height: 300,
                         ),
@@ -59,12 +59,10 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                                   if (context
                                       .read<FavoritesViewModel>()
                                       .isProductFavorite(vm.productId.id!)) {
-                                    print(
-                                        "${vm.productId}------aaaa-------- ${vm.productId.id}");
+                                    print("${vm.productId}------aaaa-------- ${vm.productId.id}");
                                     context
                                         .read<FavoritesViewModel>()
-                                        .removeItemFromFavorites(
-                                            vm.productId.id!);
+                                        .removeItemFromFavorites(vm.productId.id!);
                                   } else {
                                     context
                                         .read<FavoritesViewModel>()
@@ -76,7 +74,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                                   // context.watch veriyi dinliyo veride değişiklik olursa widget build ediliyo.
                                   color: context
                                           .watch<FavoritesViewModel>()
-                                          .isProductFavorite(vm.productId.id!)
+                                          .isProductFavorite(vm.productId.id ?? 0)
                                       ? Colors.pink
                                       : Colors.grey,
                                 ))
@@ -87,8 +85,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                           child: Text(
                             vm.productId.title ?? "No title",
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ),
                         const Divider(
@@ -100,8 +97,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                           child: Text(
                             vm.productId.description ?? "No description",
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 18),
+                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                           ),
                         ),
                         Padding(
@@ -109,8 +105,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                           child: Text(
                             vm.productId.description ?? "No description",
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 18),
+                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                           ),
                         ),
                       ],
@@ -145,14 +140,16 @@ class _HomeDetailViewState extends State<HomeDetailView> {
             }),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(9.0)),
-                fixedSize: Size(180, 34),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.0)),
+                fixedSize: const Size(180, 34),
               ),
               onPressed: () {
-                context
-                    .read<CartViewModel>()
-                    .addItem(vm.productId, vm.quantity);
+                context.read<CartViewModel>().addProduct(vm.productId, vm.quantity);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Products added to Cart'),
+                  ),
+                );
               },
               child: const Icon(Icons.shopping_cart_outlined),
             ),

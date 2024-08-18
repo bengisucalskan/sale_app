@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:sale_app/modules/home/product_model.dart';
+import 'package:sale_app/core/init/cache/locale_manager.dart';
+import 'package:sale_app/core/init/network/base_service.dart';
+import 'package:sale_app/features/home/model/product_model.dart';
 
 class HomeDetailViewModel extends ChangeNotifier {
   HomeDetailViewModel({required this.paramId}) {
@@ -8,38 +9,37 @@ class HomeDetailViewModel extends ChangeNotifier {
   }
   bool _loading = false;
   bool get loading => _loading;
-  static const baseUrl = 'https://fakestoreapi.com/products/';
   Product productId = Product();
-  int _quantity = 0;
-  int get quantity => _quantity;
+  int quantity = 0;
+  final _service = BaseService();
 
   final String? paramId;
 
   void getProductsById(String id) async {
     changeLoading();
     try {
-      var response = await Dio().get("$baseUrl$id");
+      var response = await _service.get('products/$id');
       productId = Product.fromJson(response.data);
-      print(" productId------------------ ${productId}");
+      quantity = LocaleManager.instance.getIntValue(productId.id.toString());
       notifyListeners();
     } catch (e) {
-      print("Error fetching products: $e");
+      print('Hata $e');
     } finally {
       changeLoading();
+      notifyListeners();
     }
+  }
+
+  void increase() async {
+    quantity++;
     notifyListeners();
   }
 
-  void increase() {
-    _quantity++;
-    notifyListeners();
-  }
-
-  void decrease() {
-    if (_quantity > 0) {
-      _quantity--;
+  void decrease() async {
+    if (quantity > 0) {
+      quantity--;
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   void changeLoading() {

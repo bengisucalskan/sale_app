@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sale_app/modules/basket/cart_view.dart';
-import 'package:sale_app/modules/home/home_view.dart';
-import 'package:sale_app/modules/profile/favorites_view.dart';
+import 'package:sale_app/features/basket/cart_view.dart';
+import 'package:sale_app/features/home/view/home_view.dart';
+import 'package:sale_app/features/profile/favorites_view.dart';
 
 class SaleApp extends StatefulWidget {
   const SaleApp({super.key});

@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sale_app/modules/basket/cart_view_model.dart';
+import 'package:sale_app/features/basket/cart_view_model.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -63,8 +64,7 @@ class _CartViewState extends State<CartView> {
                         Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
                                 '\£${(vm.items[index].quantities.toDouble() * (vm.items[index].product.price ?? 0.0)).toStringAsFixed(2)}', // miktar artışına göre değişiy
                                 style: const TextStyle(
@@ -75,11 +75,29 @@ class _CartViewState extends State<CartView> {
                               ),
                             ),
                             IconButton(
-                                onPressed: () {
-                                  Provider.of<CartViewModel>(context,
-                                          listen: false)
-                                      .removeItem(index);
-                                },
+                                onPressed: () => showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) => AlertDialog(
+                                        title: const Text(
+                                          'Ürün sepetinizden silinecektir!',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, 'OK');
+                                              Provider.of<CartViewModel>(context, listen: false)
+                                                  .removeItem(index);
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                 icon: const Icon(Icons.delete))
                           ],
                         ),
